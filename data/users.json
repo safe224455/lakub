@@ -1,0 +1,26 @@
+[
+  {
+    "email": "mareve@demo.co.th",
+    "roomCode": "R4718",
+    "status": true,
+    "id": "U2471ac5f3d5303a5cbb1f68de565fb9b",
+    "name": "Mareve",
+    "pictureUrl": "https://profile.line-scdn.net/0hHCXteY49F2x1DQZw3wppEwVdFAZWfE5-WmMPDkcKTVVPNVg4CmxRWERZHFRLPFFtDm9YXUMKTgx5HmAKa1vrWHI9Sl1JOlk6XWNQiQ"
+  },
+  {
+    "email": "safe@demo.co.th",
+    "roomCode": "R4712",
+    "status": true,
+    "id": "U30495f1f9a7d4462ce7772cf3d96fa19",
+    "name": "Wat",
+    "pictureUrl": "https://profile.line-scdn.net/0hFpQkvHAPGV98EgwR27ZnIAxCGjVfY0BNByEDPk0STz0TK14BBCAEa09AE28UJF1aUHIEOkhHQGdwAW45YkTla3siRG5AJVcJVHxeug"
+  },
+  {
+    "email": "mareve@demo.co.th",
+    "roomCode": "R4718",
+    "status": true,
+    "id": "U2471ac5f3d5303a5cbb1f61de565fb9b",
+    "name": "Mareve",
+    "pictureUrl": "https://profile.line-scdn.net/0hHCXteY49F2x1DQZw3wppEwVdFAZWfE5-WmMPDkcKTVVPNVg4CmxRWERZHFRLPFFtDm9YXUMKTgx5HmAKa1vrWHI9Sl1JOlk6XWNQiQ"
+  }
+]

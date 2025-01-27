@@ -1,0 +1,35 @@
+[
+  {
+    "user_id": "U30495f1f9a7d4462ce7772cf3d96fa19",
+    "dateFrom": "2025-01-24T10:14:59.329Z",
+    "dateTo": "2025-01-24T10:14:59.329Z",
+    "numberOfDays": 1,
+    "leaveType": "personal",
+    "reason": "กาา",
+    "requestedAt": "2025-01-24T10:15:26.067Z",
+    "name": "Wat",
+    "email": "safe@demo.co.th"
+  },
+  {
+    "user_id": "U2471ac5f3d5303a5cbb1f68de565fb9b",
+    "dateFrom": "2025-01-21T17:00:00.000Z",
+    "dateTo": "2025-01-26T17:00:00.000Z",
+    "numberOfDays": 4,
+    "leaveType": "other",
+    "reason": "Ffhhgf",
+    "requestedAt": "2025-01-24T10:20:12.653Z",
+    "name": "Mareve",
+    "email": "mareve@demo.co.th"
+  },
+  {
+    "user_id": "U2471ac5f3d5303a5cbb1f61de565fb9b",
+    "dateFrom": "2025-01-21T17:00:00.000Z",
+    "dateTo": "2025-01-26T17:00:00.000Z",
+    "numberOfDays": 4,
+    "leaveType": "other",
+    "reason": "Ffhhgf",
+    "requestedAt": "2025-01-24T10:20:12.653Z",
+    "name": "ball",
+    "email": "ball@demo.co.th"
+  }
+]

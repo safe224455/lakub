@@ -1,44 +1,65 @@
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { getProfile, ProfileType } from "@/provider/line"
 
-// Mock data for team members on leave today
-const todayLeaves = [
-  {
-    id: 1,
-    name: "สมชาย ใจดี",
-    email: "somchai@example.com",
-    avatar: "https://i.pravatar.cc/150?img=1",
-    leaveType: "sick",
-    reason: "ไข้หวัดใหญ่",
-    duration: "เต็มวัน"
-  },
-  {
-    id: 2,
-    name: "สมหญิง รักดี",
-    email: "somying@example.com",
-    avatar: "https://i.pravatar.cc/150?img=2",
-    leaveType: "personal",
-    reason: "ธุระส่วนตัว",
-    duration: "ช่วงเช้า"
-  },
-  {
-    id: 3,
-    name: "วิชัย สุขใจ",
-    email: "wichai@example.com",
-    avatar: "https://i.pravatar.cc/150?img=3",
-    leaveType: "vacation",
-    reason: "พักร้อนประจำปี",
-    duration: "เต็มวัน"
-  }
-];
+// const todayLeaves: any = [
+// {
+//   id: 1,
+//   name: "สมชาย ใจดี",
+//   email: "somchai@example.com",
+//   avatar: "https://i.pravatar.cc/150?img=1",
+//   leaveType: "sick",
+//   reason: "ไข้หวัดใหญ่",
+//   duration: "เต็มวัน"
+// },
+// {
+//   id: 2,
+//   name: "สมหญิง รักดี",
+//   email: "somying@example.com",
+//   avatar: "https://i.pravatar.cc/150?img=2",
+//   leaveType: "personal",
+//   reason: "ธุระส่วนตัว",
+//   duration: "ช่วงเช้า"
+// },
+// {
+//   id: 3,
+//   name: "วิชัย สุขใจ",
+//   email: "wichai@example.com",
+//   avatar: "https://i.pravatar.cc/150?img=3",
+//   leaveType: "vacation",
+//   reason: "พักร้อนประจำปี",
+//   duration: "เต็มวัน"
+// }
+// ];
 
 export default function Home() {
   const today = new Date();
   const formattedDate = format(today, "EEEE d MMMM yyyy", { locale: th });
+  const [todayLeaves, setTodayLeaves] = useState<any[]>([])
+  const getUser = async () => {
+    getProfile().then(async (data: any) => {
+      const response = await fetch(`/api/leave/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': data.userId
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to request');
+      }
+      let res: any[] = await response.json()
+      setTodayLeaves(res)
+    })
 
+    // setDisable
+  }
+  useEffect(() => { getUser() }, [])
   return (
     <div className="max-w-7xl mx-auto">
       <Card className="shadow-lg">
@@ -53,7 +74,7 @@ export default function Home() {
         <CardContent className="p-4 md:p-6">
           {todayLeaves.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {todayLeaves.map((person) => (
+              {todayLeaves?.map((person: any) => (
                 <Card key={person.id} className="bg-gray-50">
                   <CardContent className="p-4">
                     <div className="flex items-start space-x-4">

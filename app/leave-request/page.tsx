@@ -20,7 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
+import { getProfile } from "@/provider/line"
 // Mock data for remaining leave days
 const mockRemainingLeave = {
   sick: 30,
@@ -94,7 +94,7 @@ export default function LeaveRequest() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!date?.from || !date?.to || !leaveType || !reason || !email) {
+    if (!date?.from || !date?.to || !leaveType || !reason) {
       toast.error("กรุณากรอกข้อมูลให้ครบถ้วน");
       return;
     }
@@ -103,8 +103,10 @@ export default function LeaveRequest() {
     const businessDays = calculateBusinessDays(date.from, date.to);
 
     try {
+      let profile: any = await getProfile()
       const leaveData = {
-        email,
+        // email,
+        user_id: profile.userId,
         dateFrom: date.from.toISOString(),
         dateTo: date.to.toISOString(),
         numberOfDays: businessDays,
@@ -121,9 +123,9 @@ export default function LeaveRequest() {
         body: JSON.stringify(leaveData),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to submit leave request');
-      }
+      // if (!response.ok) {
+      //   throw new Error('Failed to submit leave request');
+      // }
 
       toast.success("ส่งคำขอลาเรียบร้อยแล้ว");
       setDate({ from: new Date(), to: new Date() });
@@ -137,7 +139,7 @@ export default function LeaveRequest() {
   };
 
   // Calculate business days for display
-  const businessDays = date?.from && date?.to 
+  const businessDays = date?.from && date?.to
     ? calculateBusinessDays(date.from, date.to)
     : 0;
 
@@ -152,8 +154,8 @@ export default function LeaveRequest() {
         <CardContent className="p-3 sm:p-4 md:p-6">
           <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-              <div className="space-y-4">
-                <div>
+              <div className="space-y-4 ">
+                {/* <div>
                   <Label className="text-base md:text-lg font-semibold">อีเมล</Label>
                   <Input
                     type="email"
@@ -163,10 +165,10 @@ export default function LeaveRequest() {
                     className="mt-1 md:mt-2"
                     required
                   />
-                </div>
-
+                </div> */}
                 <div>
-                  <Label className="text-base md:text-lg font-semibold">ประเภทการลา</Label>
+                  <Label className="text-base md:text-lg font-semibold ">ประเภทการลา</Label>
+                  <div className="pb-[8px]"></div>
                   <Select value={leaveType} onValueChange={setLeaveType}>
                     <SelectTrigger className="mt-1 md:mt-2">
                       <SelectValue placeholder="เลือกประเภทการลา" />
@@ -179,7 +181,7 @@ export default function LeaveRequest() {
                     </SelectContent>
                   </Select>
                 </div>
-                
+
                 <div>
                   <Label className="text-base md:text-lg font-semibold">เหตุผลการลา</Label>
                   <Textarea
@@ -204,7 +206,7 @@ export default function LeaveRequest() {
 
               <div className="space-y-4">
                 <Label className="text-base md:text-lg font-semibold">ช่วงวันที่ต้องการลา</Label>
-                <div className="border rounded-lg p-2 sm:p-3 md:p-4 bg-white overflow-x-auto">
+                <div className="border rounded-lg p-2 sm:p-3 md:p-4 bg-white overflow-x-auto " >
                   <Calendar
                     mode="range"
                     selected={date}
@@ -232,8 +234,8 @@ export default function LeaveRequest() {
               >
                 ล้างข้อมูล
               </Button>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 order-1 sm:order-2"
               >
                 ส่งคำขอลา
@@ -242,7 +244,7 @@ export default function LeaveRequest() {
           </form>
 
           <div className="mt-4 md:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
-            <Card 
+            <Card
               className="bg-blue-50 cursor-pointer hover:bg-blue-100 transition-colors"
               onClick={() => setShowRemainingLeave(true)}
             >
@@ -258,7 +260,7 @@ export default function LeaveRequest() {
               </CardContent>
             </Card>
 
-            <Card 
+            <Card
               className="bg-blue-50 cursor-pointer hover:bg-blue-100 transition-colors"
               onClick={() => setShowHistory(true)}
             >

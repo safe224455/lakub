@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,17 +24,41 @@ import {
 import { Users, Plus, Trash2, RefreshCw } from "lucide-react";
 
 // Mock initial users data
-const initialUsers = [
-  { id: 1, name: "สมชาย ใจดี", email: "somchai@example.com", roomCode: "R001" },
-  { id: 2, name: "สมหญิง รักดี", email: "somying@example.com", roomCode: "R002" },
-  { id: 3, name: "วิชัย สุขใจ", email: "wichai@example.com", roomCode: "R003" },
+const initialUsers: any[] | (() => any[]) = [
+
 ];
 
 export default function ManageUsers() {
   const [users, setUsers] = useState(initialUsers);
-  const [newUser, setNewUser] = useState({ name: "", email: "" });
+  const [newUser, setNewUser] = useState({ email: "" });
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+  const getUser = async () => {
+    const response = await fetch('/api/users', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Failed to request');
+    }
+    let result = await response.json()
+    setUsers(result)
 
+  }
+  const createUser = async (body: any) => {
+    const response = await fetch('/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)
+    });
+    if (!response.ok) {
+      throw new Error('Failed to request');
+    }
+    getUser()
+
+  }
   // Generate a random room code
   const generateRoomCode = () => {
     const prefix = "R";
@@ -43,7 +67,7 @@ export default function ManageUsers() {
   };
 
   const handleAddUser = () => {
-    if (!newUser.name || !newUser.email) {
+    if (!newUser.email) {
       toast.error("กรุณากรอกข้อมูลให้ครบถ้วน");
       return;
     }
@@ -55,13 +79,13 @@ export default function ManageUsers() {
 
     const roomCode = generateRoomCode();
     const newUserWithId = {
-      id: users.length + 1,
       ...newUser,
       roomCode,
     };
 
-    setUsers([...users, newUserWithId]);
-    setNewUser({ name: "", email: "" });
+    // setUsers([...users, newUserWithId]);
+    createUser(newUserWithId)
+    setNewUser({ email: "" });
     setIsAddUserOpen(false);
     toast.success(`เพิ่มผู้ใช้งานเรียบร้อย - รหัสห้อง: ${roomCode}`);
   };
@@ -73,12 +97,14 @@ export default function ManageUsers() {
 
   const handleRegenerateRoomCode = (id: number) => {
     const newRoomCode = generateRoomCode();
-    setUsers(users.map(user => 
+    setUsers(users.map(user =>
       user.id === id ? { ...user, roomCode: newRoomCode } : user
     ));
     toast.success(`สร้างรหัสห้องใหม่เรียบร้อย: ${newRoomCode}`);
   };
-
+  useEffect(() => {
+    getUser()
+  }, [])
   return (
     <div className="max-w-6xl mx-auto">
       <Card className="shadow-xl">
@@ -100,14 +126,14 @@ export default function ManageUsers() {
                   <DialogTitle>เพิ่มผู้ใช้งานใหม่</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
-                  <div className="space-y-2">
+                  {/* <div className="space-y-2">
                     <Label>ชื่อ-นามสกุล</Label>
                     <Input
                       placeholder="กรอกชื่อ-นามสกุล"
                       value={newUser.name}
                       onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
                     />
-                  </div>
+                  </div> */}
                   <div className="space-y-2">
                     <Label>อีเมล</Label>
                     <Input
@@ -117,7 +143,7 @@ export default function ManageUsers() {
                       onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
                     />
                   </div>
-                  <Button 
+                  <Button
                     className="w-full bg-blue-600 hover:bg-blue-700"
                     onClick={handleAddUser}
                   >
@@ -147,14 +173,14 @@ export default function ManageUsers() {
                     <TableCell>
                       <div className="flex items-center space-x-2">
                         <span className="font-mono">{user.roomCode}</span>
-                        <Button
+                        {/* <Button
                           variant="ghost"
                           size="icon"
                           onClick={() => handleRegenerateRoomCode(user.id)}
                           className="h-8 w-8"
                         >
                           <RefreshCw className="h-4 w-4" />
-                        </Button>
+                        </Button> */}
                       </div>
                     </TableCell>
                     <TableCell className="text-right">

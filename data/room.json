@@ -1,0 +1,19 @@
+[
+  {
+    "email": "mareve@demo.co.th",
+    "roomCode": "MR1463",
+    "status": true,
+    "member": [
+      "U2471ac5f3d5303a5cbb1f68de565fb9b",
+      "U30495f1f9a7d4462ce7772cf3d96fa19"
+    ]
+  },
+  {
+    "email": "bobo@demo.co.th",
+    "roomCode": "MR1462",
+    "status": true,
+    "member": [
+      "U2471ac5f3d5303a5cbb1f61de565fb9b"
+    ]
+  }
+]
