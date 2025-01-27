@@ -3,6 +3,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 const dataFile = path.join(process.cwd(), 'data', 'users.json');
+import { supabase } from '../lib/supabaseClient'
 
 export async function POST(request: Request) {
   try {
@@ -37,11 +38,28 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
+  // try {
+  //   const fileContent = await fs.readFile(dataFile, 'utf8');
+  //   const data = JSON.parse(fileContent);
+  //   return NextResponse.json(data);
+  // } catch (error) {
+  //   return NextResponse.json([], { status: 200 });
+  // }
   try {
-    const fileContent = await fs.readFile(dataFile, 'utf8');
-    const data = JSON.parse(fileContent);
+    // Fetch data from Supabase table
+    const { data, error } = await supabase.from('user').select();
+    console.log(data)
+    console.log(error)
+    if (error) {
+
+      throw error; // Throw the error if Supabase returns one
+    }
+
+    // Return the data as JSON
     return NextResponse.json(data);
-  } catch (error) {
+  } catch (error: any) {
+    console.error('Error fetching data:', error.message);
+    // Return empty array with status 200 in case of error
     return NextResponse.json([], { status: 200 });
   }
 }
