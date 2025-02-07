@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { CalendarDays, FileText, UserCircle, Users } from "lucide-react";
+import { CalendarDays, FileText, UserCircle, Users, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getProfile } from "@/provider/line"
 
@@ -22,7 +22,6 @@ export function MainNav() {
     getProfile().then((res: any) => {
       setName(res.displayName)
       setProfile(res)
-
     })
   }, [])
 
@@ -30,10 +29,10 @@ export function MainNav() {
     <>
       <div className="border-b bg-white">
         <div className="flex h-16 items-center px-4 max-w-7xl mx-auto justify-between">
-          <div className="font-bold text-xl text-blue-600 mr-8">ระบบจัดการการลา </div>
+          <div className="font-bold text-xl text-blue-600 mr-8">ระบบจัดการการลา</div>
           <div className="flex items-center gap-2">
             <div>{name}</div>
-            {name && <div><img src={profile?.pictureUrl} alt="img-profile" width={30} height={30} className=" rounded-md"></img></div>}
+            {name && <div><img src={profile?.pictureUrl} alt="img-profile" width={30} height={30} className="rounded-md"></img></div>}
           </div>
         </div>
       </div>
@@ -41,14 +40,15 @@ export function MainNav() {
     </>
   );
 }
+
 const Menu = () => {
   const pathname = usePathname();
-  return <nav className="flex flex-col sm:flex-row  items-center text-sm font-medium justify-around m-5">
-    <div className="flex w-full  justify-between">
+  return <nav className="flex flex-col sm:flex-row items-center text-sm font-medium justify-around m-5">
+    <div className="flex w-full justify-between">
       <Link
         href="/"
         className={cn(
-          "transition-colors hover:text-blue-600 flex  items-center space-x-2  px-4 py-2 rounded-md",
+          "transition-colors hover:text-blue-600 flex items-center space-x-2 px-4 py-2 rounded-md",
           pathname === "/" ? "text-blue-600 bg-white" : "text-gray-600"
         )}
       >
@@ -58,7 +58,7 @@ const Menu = () => {
       <Link
         href="/leave-request"
         className={cn(
-          "transition-colors hover:text-blue-600 flex items-center space-x-2  px-4 py-2 rounded-md",
+          "transition-colors hover:text-blue-600 flex items-center space-x-2 px-4 py-2 rounded-md",
           pathname === "/leave-request" ? "text-blue-600 bg-white" : "text-gray-600"
         )}
       >
@@ -68,9 +68,19 @@ const Menu = () => {
     </div>
     <div className="flex w-full justify-between">
       <Link
+        href="/work-location"
+        className={cn(
+          "transition-colors hover:text-blue-600 flex items-center space-x-2 px-4 py-2 rounded-md",
+          pathname === "/work-location" ? "text-blue-600 bg-white" : "text-gray-600"
+        )}
+      >
+        <Clock className="h-4 w-4" />
+        <span>ลงเวลา</span>
+      </Link>
+      <Link
         href="/profile"
         className={cn(
-          "transition-colors hover:text-blue-600 flex items-center space-x-2  px-4 py-2 rounded-md",
+          "transition-colors hover:text-blue-600 flex items-center space-x-2 px-4 py-2 rounded-md",
           pathname === "/profile" ? "text-blue-600 bg-white" : "text-gray-600"
         )}
       >
@@ -80,7 +90,7 @@ const Menu = () => {
       <Link
         href="/manage-users"
         className={cn(
-          "transition-colors hover:text-blue-600 flex items-center space-x-2  px-4 py-2 rounded-md",
+          "transition-colors hover:text-blue-600 flex items-center space-x-2 px-4 py-2 rounded-md",
           pathname === "/manage-users" ? "text-blue-600 bg-white" : "text-gray-600"
         )}
       >
