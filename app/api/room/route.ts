@@ -1,14 +1,16 @@
-import { UserModel } from '../../models/UserModel';
+import { NextResponse } from 'next/server';
+import { RoomModel } from '../../models/RoomModel';
 import { Response } from '../../response'
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '1', 10);
-    const offset = parseInt(searchParams.get('offset') || '0', 10);
-    const users = await UserModel.getAllUsers(limit, offset);
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const offset = (page - 1) * limit;
+    const rooms = await RoomModel.getAll(limit, offset);
     const response = {
-      result: users,
+      result: rooms,
       message: "success",
       status_code: 200
     }
@@ -26,12 +28,12 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const userData = await request.json()
-    const users = await UserModel.create_user(userData);
+    const roomData = await request.json();
+    const room = await RoomModel.create(roomData);
     const response = {
-      result: users,
-      message: 'success',
-      status_code: 201
+      result: room,
+      message: "success",
+      status_code: 200
     }
     return Response(response);
   } catch (error: any) {
