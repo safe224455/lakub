@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '1', 10);
     const offset = parseInt(searchParams.get('offset') || '0', 10);
-    const users = await UserModel.getAllUsers(limit, offset);
+    const users = await UserModel.getAll(limit, offset);
     const response = {
       result: users,
       message: "success",
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const userData = await request.json()
-    const users = await UserModel.create_user(userData);
+    const users = await UserModel.create(userData);
     const response = {
       result: users,
       message: 'success',

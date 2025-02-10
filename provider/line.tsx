@@ -22,10 +22,10 @@ export const getProfile = async () => {
     //     });
     // });
     let Profile: ProfileType = {
-      userId: 'U30495f1f9a7d4462ce7772cf3d96fa19',
-      displayName: 'bobo',
-      pictureUrl: '',
-      statusMessage: 'true',
+      "statusMessage": "true",
+      "userId": "U30495f1f9a7d4462ce7772cf3d96fa19",
+      "displayName": "Wat",
+      "pictureUrl": "https://profile.line-scdn.net/0hFpQkvHAPGV98EgwR27ZnIAxCGjVfY0BNByEDPk0STz0TK14BBCAEa09AE28UJF1aUHIEOkhHQGdwAW45YkTla3siRG5AJVcJVHxeug"
     }
     res(Profile)
   })
