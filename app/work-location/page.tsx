@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
 import { Building2, Home } from "lucide-react";
+import api from "@/lib/axiosService";
 
 export default function WorkLocation() {
     const [location, setLocation] = useState<"wfh" | "onsite">("onsite");
@@ -20,14 +21,20 @@ export default function WorkLocation() {
     const handleCheckInOut = () => {
         const action = isCheckedIn ? "ออกงาน" : "เข้างาน";
         const locationText = location === "wfh" ? "Work From Home" : "ที่สำนักงาน";
-
-        toast.success(
-            `${action}เวลา ${formattedTime} น. - ${locationText}`
-        );
-
-        setIsCheckedIn(!isCheckedIn);
+        createActivity(action, locationText);
     };
-
+    const createActivity = (action: string, location: string) => {
+        api
+            .post("/api/attendance", {
+                type: action,
+                workplace: location,
+            }).then((response) => {
+                if (response.status === 200) {
+                    toast.success(response.data.message);
+                    setIsCheckedIn(!isCheckedIn);
+                }
+            })
+    };
     return (
         <div className="max-w-md mx-auto">
             <Card className="shadow-xl">
