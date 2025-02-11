@@ -18,22 +18,8 @@ type Profile = {
 }
 
 import { getProfile } from "@/provider/line"
+import api from "@/lib/axiosService";
 
-// Mock data for work time history
-const workTimeHistory = [
-  {
-    date: "2024-03-25",
-    checkIn: "09:00",
-    checkOut: "18:00",
-    location: "onsite"
-  },
-  {
-    date: "2024-03-24",
-    checkIn: "08:45",
-    checkOut: "17:30",
-    location: "wfh"
-  }
-];
 
 // Mock data for leave history
 const leaveHistory = [
@@ -56,7 +42,6 @@ const leaveHistory = [
 export default function ProfilePage() {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState<boolean>(true)
-
   const [formData, setFormData] = useState({
     roomCode: "",
     name: "",
@@ -185,40 +170,7 @@ export default function ProfilePage() {
         </CardContent>
       </Card>
 
-      {/* Work Time History */}
-      <Card className="shadow-xl">
-        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-t-lg">
-          <div className="flex items-center space-x-2">
-            <Clock className="h-6 w-6" />
-            <CardTitle>ประวัติการลงเวลา</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="space-y-4">
-            {workTimeHistory.map((record, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
-              >
-                <div>
-                  <p className="font-medium">
-                    {format(new Date(record.date), 'd MMMM yyyy', { locale: th })}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    เข้างาน {record.checkIn} น. - ออกงาน {record.checkOut} น.
-                  </p>
-                </div>
-                <span className={`px-3 py-1 rounded-full text-sm ${record.location === 'onsite'
-                    ? 'bg-blue-100 text-blue-800'
-                    : 'bg-green-100 text-green-800'
-                  }`}>
-                  {record.location === 'onsite' ? 'ที่สำนักงาน' : 'Work From Home'}
-                </span>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+
 
       {/* Leave History */}
       <Card className="shadow-xl">
@@ -246,10 +198,10 @@ export default function ProfilePage() {
                     <p className="text-sm text-gray-600 mt-1">{leave.reason}</p>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-sm ${leave.type === 'sick'
-                      ? 'bg-red-100 text-red-800'
-                      : leave.type === 'personal'
-                        ? 'bg-yellow-100 text-yellow-800'
-                        : 'bg-green-100 text-green-800'
+                    ? 'bg-red-100 text-red-800'
+                    : leave.type === 'personal'
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : 'bg-green-100 text-green-800'
                     }`}>
                     {leave.type === 'sick' ? 'ลาป่วย' : leave.type === 'personal' ? 'ลากิจ' : 'ลาพักร้อน'}
                   </span>

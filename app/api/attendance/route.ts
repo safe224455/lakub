@@ -5,10 +5,17 @@ import { authMiddleware } from '../middleware/authMiddleware';
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         const auth = await authMiddleware(request);
+        const { searchParams } = new URL(request.url);
         if (!auth.authorized) {
             return Response({ result: {}, message: auth.error || 'Unauthorized', status_code: 401 });
         }
-        const result = await AttendanceModel.getByUserId(auth.user.id)
+        let result: any
+        if (searchParams.get('mode') == "month") {
+            result = await AttendanceModel.getByDate(searchParams.get('date') || new Date().toISOString().split('T')[0], auth.user.id)
+        }
+        else {
+            result = await AttendanceModel.getByUserId(auth.user.id)
+        }
 
         if (!result) {
             return Response({ result: {}, message: 'User not fond', status_code: 404 })

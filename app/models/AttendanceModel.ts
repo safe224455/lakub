@@ -41,7 +41,32 @@ export class AttendanceModel {
             return null;
         }
     }
+    static async getByDate(date: string, userId: string): Promise<AttendanceData[] | null> {
+        try {
+            let startDate = new Date(new Date(date).setDate(1));
+            let endDate = new Date(new Date(date).setDate(new Date(date).getDate() + 1));
+            console.log({
+                p_start_date: new Date(startDate).toISOString(),
+                p_start_end: new Date(endDate).toISOString(),
+                p_user_id: userId
+            });
 
+
+            const { data, error } = await supabase
+                .rpc('get_attendance_by_month', {
+                    end_date: endDate,
+                    start_date: startDate,
+                    uid: userId
+                })
+            if (error) {
+                throw error;
+            }
+            return data ?? null;
+        } catch (error: any) {
+            console.error('Error fetching attendance:', error.message);
+            return null;
+        }
+    }
     static async create(dataCreate: AttendanceData, userId: string) {
         try {
 
